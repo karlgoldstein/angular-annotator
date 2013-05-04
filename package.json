@@ -1,0 +1,43 @@
+{
+  "name": "grunt-angular-annotator",
+  "description": "Generates Angular injection annotations for Controllers, Factories and Services",
+  "version": "0.0.1",
+  "homepage": "https://github.com/karlgoldstein/grunt-angular-annotator",
+  "author": {
+    "name": "Karl Goldstein",
+    "email": "karl.goldstein@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlgoldstein/grunt-angular-annotator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/karlgoldstein/grunt-angular-annotator/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/karlgoldstein/grunt-angular-annotator/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-coffee": "~0.6.6",
+    "grunt": "~0.4.0"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
