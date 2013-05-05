@@ -40,7 +40,7 @@ MyController = ($location, MyOtherService) ->
 
 and this plugin takes care of inserting the appropriate Angular declarations to your JavaScript each time you build:
 
-```
+```js
 module.service('MyService', ['$http','$q']);
 module.factory('MyOtherService', ['$resource','MyService', MyOtherServiceFactory]);
 module.controller('MyController', ['$location','MyOtherService', MyController]);
