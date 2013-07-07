@@ -12,7 +12,9 @@ module.exports = function(grunt) {
 
   var path = require('path');
 
-  var INJECTABLE_RE = /\n\s*([\w]+(Controller|Service|Factory))\s*=\s*function\(([^)]*)\)/g;
+  var INJECTABLE_RE = /\n\s*([\w]+(Directive|Controller|Service|Factory|Config|Run))\s*=\s*function\(([^)]*)\)/g;
+
+  // TODO: also match XXXService.constructor = function(XXX) {};
 
   // Warn on and remove invalid source files (if nonull was set).
   var existsFilter = function(filepath) {
@@ -29,7 +31,7 @@ module.exports = function(grunt) {
     return "'" + s.trim() + "'";
   };
 
-  grunt.registerMultiTask('angularAnnotate', 'AngularJS annotation generator', function() {
+  grunt.registerMultiTask('angular', 'AngularJS preprocessor', function() {
 
     this.files.forEach(function(f) {
 
@@ -38,16 +40,25 @@ module.exports = function(grunt) {
         var injectables = [], declarations = [];
         var content = grunt.file.read(filepath);
         var output = content.replace(INJECTABLE_RE, function(match, name, type, args) {
-          var injectableName = name.replace(/Factory$/, '');
+          var injectableName = name.replace(/(Directive|Factory)$/, '');
           injectables.push(injectableName);
-          var dependencies = args.split(',').map(quote).join(',');
-          declarations.push("module." + type.toLowerCase() + "('" + injectableName + "', [" + dependencies + ", " + name + "]);");
+          var dependencies = args.split(',');
+          if (dependencies.length > 0 && dependencies[0] != '') {
+            dependencies = dependencies.map(quote).join(',') + ", ";
+          } else {
+            dependencies = "";
+          }
+          if (type.toLowerCase() == "config" || type.toLowerCase() == "run") {
+            declarations.push("module." + type.toLowerCase() + "([" + dependencies + name + "]);");
+          } else {
+            declarations.push("module." + type.toLowerCase() + "('" + injectableName + "', [" + dependencies + name + "]);");
+          }
           return match;
         });
         if (injectables.length > 0) {
           output = output.replace(/}\).call\(this\);\s*$/, declarations.join("\n") + "\n$&");
           grunt.file.write(filepath, output);
-          grunt.log.writeln('Appended Angular declarations to ' + filepath + ' for injectables: ' + injectables.join(', '));
+          grunt.log.writeln('Inserted declarations in ' + filepath + ': ' + injectables.join(','));
         }
       });
     });

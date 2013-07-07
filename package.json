@@ -1,7 +1,7 @@
 {
   "name": "grunt-angular-annotator",
   "description": "Generates Angular injection annotations for Controllers, Factories and Services",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/karlgoldstein/grunt-angular-annotator",
   "author": {
     "name": "Karl Goldstein",
